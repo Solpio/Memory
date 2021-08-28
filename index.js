@@ -268,7 +268,7 @@ function createButton() {
         button.innerText ="play";
     }
 
-    img.setAttribute("src","/icons/triangle.png")
+    img.setAttribute("src","icons/triangle.png")
 
     button.prepend(img);
     
