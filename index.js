@@ -3,8 +3,6 @@ class Game{
         this.cards = n;
         this.matches = n/2;
         this.games = [];
-        // this.card1 = null;
-        // this.card2 = null;
     }
     createCards(){
         let main = document.querySelector(".main");
@@ -70,10 +68,15 @@ function startGame(game){
     const cards = document.querySelectorAll(".card");
     cards.forEach(card => card.addEventListener("click", activecard));
 
+
     let matches = game;
     localStorage.setItem("matches", matches);
     let card1 = null;
     let card2 = null;
+    let attempts = game*3;
+
+    let attmpt = document.querySelector(".attempts");
+    attmpt.innerText = `counts left: ${attempts}`;
 
     function activecard(e){
         e.target.classList.add("card--active");
@@ -97,6 +100,10 @@ function startGame(game){
     }
 
     function compareTwoCards(card1,card2){
+        attempts -= 1;
+        attmpt.innerText = `counts left: ${attempts}`;
+  
+
        if (card1 !== card2){
            if (card1.firstElementChild.firstElementChild.attributes.src.textContent !== card2.firstElementChild.firstElementChild.attributes.src.textContent){
                 setTimeout(()=> deadctivecard(card1), 1000);
@@ -124,6 +131,17 @@ function startGame(game){
                } 
            }
        }
+       isOver(attempts,matches);
+    }
+
+    function isOver(attempts,matches) {
+        if (attempts === 0 && matches > 0){
+            let cards = document.querySelectorAll(".card");
+            cards.forEach(card=> card.removeEventListener("click",activecard));
+            createLoseLabel();
+            createButton();
+
+        }
     }
 }
 
@@ -167,6 +185,7 @@ function game(p) {
     }else{
         deleteElements();
         localStorage.clear();
+        deleteAttempts();
         createButton();
     }
 }
@@ -246,7 +265,22 @@ function setLevel() {
     let logo = document.querySelector(".logo");
     logo.after(div);
 }
+function setAttempts() {    
+    let attempt = document.querySelector(".attempts");
+    if(!attempt){
+    let div = document.createElement("div");
 
+    div.classList.add("attempts");
+
+    let logo = document.querySelector(".logo");
+    logo.after(div);
+    }
+}
+
+function deleteAttempts() {
+    let attempts = document.querySelector(".attempts");
+    attempts.remove();
+}
 
 function createButton() {
     let button = document.createElement("button");
@@ -278,6 +312,7 @@ function createButton() {
     logo.after(button);
 
     let start = document.querySelectorAll(".button");
+    start.forEach(button=>button.addEventListener("click",setAttempts));
     start.forEach(button=>button.addEventListener("click",game));
     start.forEach(button=>button.addEventListener("click",setLevel));
     start.forEach(button=>button.addEventListener("click",deleteLabel));
@@ -289,6 +324,8 @@ function createWinLabel() {
 
     label_top.classList.add("label");
     label_down.classList.add("label");
+    label_top.classList.add("label__win");
+    label_down.classList.add("label__win");
     label_down.classList.add("label__down");
 
     label_top.innerText = "you";
@@ -299,6 +336,29 @@ function createWinLabel() {
     logo.append(label_down);    
 
 } 
+
+function createLoseLabel() {
+    let label_top = document.createElement("div");
+    let label_down = document.createElement("div");
+
+    label_top.classList.add("label");
+    label_down.classList.add("label");
+    label_top.classList.add("label__lose");
+    label_down.classList.add("label__lose");
+    label_down.classList.add("label__downlose");
+
+    label_top.innerText = "you";
+    label_down.innerText = "lose";
+
+    let logo = document.querySelector(".logo");
+    logo.append(label_top);
+    logo.append(label_down);    
+
+} 
+
+
+
+
 function deleteLabel() {
     let labels  = document.querySelectorAll(".label");
     labels.forEach(label => label.remove());

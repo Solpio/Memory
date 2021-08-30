@@ -92,12 +92,22 @@
   background-color: #C4C4C4;
 }
 
+.card__content[hidden] {
+  display: block;
+}
+
+.card:hover {
+  -webkit-transition: background-color 500ms;
+  transition: background-color 500ms;
+  background-color: #797979;
+}
+
 .card--active {
   background-color: #ffffff;
 }
 
-.card__content[hidden] {
-  display: block;
+.card--active:hover {
+  background-color: #ffffff;
 }
 
 .level {
@@ -121,12 +131,36 @@
   font-weight: normal;
   font-size: 144px;
   letter-spacing: 0.3em;
-  color: #059D1D;
-  -webkit-text-stroke: 2px #000000;
+  -webkit-text-stroke: 5px #000000;
 }
 
 .label__down {
   top: 45vh;
+}
+
+.label__downlose {
+  left: 40.5vw;
+  top: 45vh;
+}
+
+.label__win {
+  color: #059D1D;
+}
+
+.label__lose {
+  color: #FF4040;
+}
+
+.attempts {
+  position: absolute;
+  left: 25vw;
+  top: 21vh;
+  font-family: Staatliches;
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: 0.2em;
+  color: #FFFFFF;
 }
 
 .img {
